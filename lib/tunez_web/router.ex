@@ -17,6 +17,8 @@ defmodule TunezWeb.Router do
   scope "/", TunezWeb do
     pipe_through :browser
 
+    get "/metrics", MetricsController, :index
+
     live "/", Artists.IndexLive
     live "/artists/new", Artists.FormLive, :new
     live "/artists/:id", Artists.ShowLive
@@ -42,7 +44,7 @@ defmodule TunezWeb.Router do
     scope "/dev" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: TunezWeb.Telemetry
+      live_dashboard "/dashboard"
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end

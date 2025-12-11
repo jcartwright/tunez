@@ -1,0 +1,65 @@
+# Cursor Rules for Tunez (Ash Framework Application)
+
+## Ash Framework Usage Rules
+
+**CRITICAL**: This project uses the Ash Framework. You MUST follow the Ash Framework usage rules located at:
+- `deps/ash/usage-rules.md` - Primary Ash Framework conventions and patterns
+- `deps/ash_postgres/usage-rules.md` - AshPostgres-specific patterns (if applicable)
+- `deps/igniter/usage-rules.md` - Igniter-specific patterns (if applicable)
+
+### Key Ash Framework Principles
+
+1. **Code Interfaces**: Always use code interfaces on domains instead of direct Ash calls
+   - Use `Domain.action_name!(params, opts)` instead of `Ash.create!(Resource, params)`
+   - Define code interfaces in the domain's `resources` block using `define`
+
+2. **Code Organization**: 
+   - Organize code around domains and resources
+   - Put business logic inside actions, not in external modules
+   - Use domain-specific actions rather than generic CRUD operations
+
+3. **Query Building**:
+   - Prefer code interface options (`query: [filter: ..., sort: ...]`) over manual query building
+   - Always `require Ash.Query` before using `Ash.Query.filter/2` (it's a macro)
+   - Use `!` versions of functions for "let it crash" patterns
+
+4. **Error Handling**:
+   - Use `!` versions (e.g., `Domain.create!`) when you want to "let it crash"
+   - Prefer raising versions over pattern matching on ok/error tuples
+   - Understand Ash error classes: Forbidden, Invalid, Framework, Unknown
+
+5. **Actions**:
+   - Create specific, well-named actions rather than generic ones
+   - Put all business logic inside action definitions
+   - Use hooks (`after_action`, `before_action`, etc.) for additional logic
+
+6. **Relationships**:
+   - Use `manage_relationship` in actions for relationship management
+   - Be descriptive with relationship names
+   - Use code interface options for loading relationships
+
+7. **Testing**:
+   - Use globally unique values for identity attributes in tests to prevent deadlocks
+   - Test through domain code interfaces, not direct Ash calls
+   - Use `authorize?: false` in tests where authorization is not the focus
+
+### Project-Specific Context
+
+- This is a Phoenix LiveView application using Ash Framework
+- Domain: `Tunez.Music`
+- Resources are defined in `lib/tunez/music/`
+- Web layer is in `lib/tunez_web/`
+
+### Before Making Changes
+
+1. Read the relevant sections of `deps/ash/usage-rules.md` for the feature you're working on
+2. Follow Ash patterns and conventions strictly
+3. Use code interfaces defined in the domain
+4. Avoid direct Ash module calls in web modules (LiveViews/Controllers)
+
+### When in Doubt
+
+- Check `deps/ash/usage-rules.md` for patterns and examples
+- Prefer Ash's declarative DSL over imperative code
+- Use domain code interfaces over direct resource manipulation
+
