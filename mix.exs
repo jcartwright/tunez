@@ -34,6 +34,7 @@ defmodule Tunez.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:ash_phoenix, "~> 2.0"},
       {:ash_postgres, "~> 2.0"},
       {:sourceror, "~> 1.8", only: [:dev, :test]},
       {:ash, "~> 3.0"},
@@ -65,7 +66,8 @@ defmodule Tunez.MixProject do
       {:dns_cluster, "~> 0.2"},
       {:bandit, "~> 1.5"},
       {:igniter, "~> 0.3", only: [:dev]},
-      {:phoenix_test, "~> 0.7.0", only: :test, runtime: false}
+      {:phoenix_test, "~> 0.7.0", only: :test, runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -80,7 +82,7 @@ defmodule Tunez.MixProject do
       setup: ["deps.get", "ash.setup", "assets.setup", "assets.build", "run priv/repo/seeds.exs"],
       "ecto.setup": ["ecto.create", "ecto.migrate"],
       seed: [
-        # "run priv/repo/seeds/01-artists.exs",
+        "run priv/repo/seeds/01-artists.exs"
         # "run priv/repo/seeds/02-albums.exs",
         # "run priv/repo/seeds/08-tracks.exs"
       ],
