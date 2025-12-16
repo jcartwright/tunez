@@ -63,3 +63,6 @@
 - Prefer Ash's declarative DSL over imperative code
 - Use domain code interfaces over direct resource manipulation
 
+
+
+
